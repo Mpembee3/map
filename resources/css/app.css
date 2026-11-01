@@ -3,6 +3,37 @@
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 
+.flight-map-pin svg {
+    display: block;
+    overflow: visible;
+    filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.4));
+    transform-origin: 50% 100%;
+    animation: flight-map-pin-drop 160ms ease-out;
+}
+
+.flight-map-pin path {
+    fill: #18181b;
+    stroke: #ffffff;
+    stroke-width: 2;
+}
+
+.flight-map-pin circle {
+    fill: #ffffff;
+}
+
+@keyframes flight-map-pin-drop {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .flight-map-pin svg {
+        animation: none;
+    }
+}
+
 .flight-map-popup {
     display: grid;
     grid-template-columns: auto 1fr;

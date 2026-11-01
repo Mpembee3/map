@@ -54,7 +54,7 @@ Open <http://localhost:8000> in your browser. Press `Ctrl+C` in the terminal to 
 ## Using the map
 
 - **Colour track by:** switch between `jamind`, Alt (HAE) and HDOP.
-- **Click the track:** see the time, Lat, Lon, Alt (HAE), `jamind` and HDOP at that point.
+- **Click the track:** drop a pin on the nearest point and see its time, Lat, Lon, Alt (HAE), `jamind` and HDOP. Close the details or click away from the track to remove the pin.
 - **Dashed lines:** samples where the receiver had no position.
 - **Red marker:** where high `jamind` (14 and over) first appears.
 - **Hide suspect points:** hides positions that imply a speed or climb over 60 m/s, which are likely receiver glitches.

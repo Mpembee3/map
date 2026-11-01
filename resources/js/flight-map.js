@@ -21,6 +21,17 @@ const TILE_BOUNDS = [
     [53.21, 50.14],
 ];
 
+const PIN_ICON = L.divIcon({
+    className: 'flight-map-pin',
+    html: `<svg viewBox="0 0 28 38" width="28" height="38" aria-hidden="true">
+        <path d="M14 1.5C7.1 1.5 1.5 7 1.5 13.8 1.5 23 14 36.5 14 36.5S26.5 23 26.5 13.8C26.5 7 20.9 1.5 14 1.5Z" />
+        <circle cx="14" cy="13.8" r="4.5" />
+    </svg>`,
+    iconSize: [28, 38],
+    iconAnchor: [14, 37],
+    popupAnchor: [0, -36],
+});
+
 const METRICS = {
     jamind: {
         label: 'jamind',
@@ -154,7 +165,10 @@ document.addEventListener('alpine:init', () => {
                 map.on('click', (event) => this.showNearestPoint(event));
 
                 this.$watch('metricKey', () => this.drawTrack());
-                this.$watch('hideSuspect', () => this.drawTrack());
+                this.$watch('hideSuspect', () => {
+                    map.closePopup();
+                    this.drawTrack();
+                });
 
                 try {
                     const response = await fetch(trackUrl, { headers: { Accept: 'application/json' } });
@@ -230,9 +244,16 @@ document.addEventListener('alpine:init', () => {
                     }
                 }
 
-                if (nearest) {
-                    L.popup().setLatLng([nearest[LATITUDE], nearest[LONGITUDE]]).setContent(describePoint(nearest)).openOn(map);
+                if (!nearest) {
+                    return;
                 }
+
+                const pin = L.marker([nearest[LATITUDE], nearest[LONGITUDE]], { icon: PIN_ICON, keyboard: false })
+                    .bindPopup(describePoint(nearest))
+                    .on('popupclose', () => pin.remove())
+                    .addTo(map);
+
+                pin.openPopup();
             },
 
             destroy() {
